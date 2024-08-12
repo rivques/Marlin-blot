@@ -32,7 +32,7 @@
 #include "../shared/math_32bit.h"
 #include "../shared/HAL_SPI.h"
 #include "fastio.h"
-//#include "Servo.h"
+#include "Servo.h"
 #include "watchdog.h"
 #include "MarlinSerial.h"
 
@@ -171,6 +171,8 @@ extern volatile uint32_t systick_uptime_millis;
 // ------------------------
 
 int freeMemory();
+
+char *dtostrf(double __val, signed char __width, unsigned char __prec, char *__s);
 
 // ------------------------
 // MarlinHAL Class

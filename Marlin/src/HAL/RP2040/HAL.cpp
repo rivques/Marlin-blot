@@ -185,4 +185,11 @@ int freeMemory() {
   return (int)&free_memory - (heap_end ?: (int)&__bss_end__);
 }
 
+char *dtostrf(double __val, signed char __width, unsigned char __prec, char *__s) {
+  char format_string[20];
+  snprintf(format_string, 20, "%%%d.%df", __width, __prec);
+  sprintf(__s, format_string, __val);
+  return __s;
+}
+
 #endif // __PLAT_RP2040__

@@ -21,7 +21,7 @@
  */
 #include "../platforms.h"
 
-#ifdef __PLAT_RP2040__
+#if 1 // __PLAT_RP2040__
 
 #include "../../inc/MarlinConfig.h"
 
