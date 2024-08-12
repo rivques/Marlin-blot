@@ -673,9 +673,10 @@ void FTMotion::makeVector() {
       if (traj_gen_cfg.mode == trajGenMode_SWEEPC_X ) traj.x[makeVector_batchIdx] = s_;
       else traj.y[makeVector_batchIdx] = s_;
 
-    } else { // Planner mode.
+    }
+    else { // Planner mode.
       float accel_k = 0.0f;                                 // (mm/s^2) Acceleration K factor
-      float tau = (makeVector_idx + 1) * (FTM_TS);    // (s) Time since start of block
+      float tau = (makeVector_idx + 1) * (FTM_TS);          // (s) Time since start of block
       float dist = 0.0f;                                    // (mm) Distance traveled
 
       if (makeVector_idx < N1) {
@@ -695,18 +696,8 @@ void FTMotion::makeVector() {
         accel_k = decel_P;                                  // (mm/s^2) Acceleration K factor from Decel phase
       }
 
-      LOGICAL_AXIS_CODE(
-        traj.e[makeVector_batchIdx] = startPosn.e + ratio.e * dist,
-        traj.x[makeVector_batchIdx] = startPosn.x + ratio.x * dist,
-        traj.y[makeVector_batchIdx] = startPosn.y + ratio.y * dist,
-        traj.z[makeVector_batchIdx] = startPosn.z + ratio.z * dist,
-        traj.i[makeVector_batchIdx] = startPosn.i + ratio.i * dist,
-        traj.j[makeVector_batchIdx] = startPosn.j + ratio.j * dist,
-        traj.k[makeVector_batchIdx] = startPosn.k + ratio.k * dist,
-        traj.u[makeVector_batchIdx] = startPosn.u + ratio.u * dist,
-        traj.v[makeVector_batchIdx] = startPosn.v + ratio.v * dist,
-        traj.w[makeVector_batchIdx] = startPosn.w + ratio.w * dist
-      );
+      #define _SET_TRAJ(q) traj.q[makeVector_batchIdx] = startPosn.q + ratio.q * dist,
+      LOGICAL_AXIS_MAP_LC(_SET_TRAJ);
 
       #if HAS_EXTRUDERS
         if (cfg.linearAdvEna) {
@@ -744,15 +735,16 @@ void FTMotion::makeVector() {
       if (++shaping.zi_idx == (FTM_ZMAX)) shaping.zi_idx = 0;
     #endif
 
-  // Filled up the queue with regular and shaped steps
-  if (++makeVector_batchIdx == FTM_WINDOW_SIZE) {
-    makeVector_batchIdx = BATCH_SIDX_IN_WINDOW;
-    batchRdy = true;
-  }
+    // Filled up the queue with regular and shaped steps
+    if (++makeVector_batchIdx == FTM_WINDOW_SIZE) {
+      makeVector_batchIdx = BATCH_SIDX_IN_WINDOW;
+      batchRdy = true;
+    }
 
     if (++makeVector_idx == max_intervals) {
       if (traj_gen_cfg.mode) SERIAL_ECHOLN("M494 echo: profile ran to completion.");
-      blockProcRdy = false; traj_gen_cfg.mode = trajGenMode_NONE;
+      blockProcRdy = false;
+      traj_gen_cfg.mode = trajGenMode_NONE;
       makeVector_idx = 0;
     }
   } while ((blockProcRdy || traj_gen_cfg.mode) && !batchRdy);
@@ -825,7 +817,7 @@ void FTMotion::convertToSteps(const uint32_t idx) {
 
     // Set up step/dir bits for all axes
     LOGICAL_AXIS_CODE(
-      command_set[E_AXIS_N(current_block->extruder)](err_P.e, steps.e, stepperCmdBuff[stepperCmdBuff_produceIdx], _BV(FT_BIT_DIR_E), _BV(FT_BIT_STEP_E)),
+      command_set[E_AXIS](err_P.e, steps.e, stepperCmdBuff[stepperCmdBuff_produceIdx], _BV(FT_BIT_DIR_E), _BV(FT_BIT_STEP_E)),
       command_set[X_AXIS](err_P.x, steps.x, stepperCmdBuff[stepperCmdBuff_produceIdx], _BV(FT_BIT_DIR_X), _BV(FT_BIT_STEP_X)),
       command_set[Y_AXIS](err_P.y, steps.y, stepperCmdBuff[stepperCmdBuff_produceIdx], _BV(FT_BIT_DIR_Y), _BV(FT_BIT_STEP_Y)),
       command_set[Z_AXIS](err_P.z, steps.z, stepperCmdBuff[stepperCmdBuff_produceIdx], _BV(FT_BIT_DIR_Z), _BV(FT_BIT_STEP_Z)),

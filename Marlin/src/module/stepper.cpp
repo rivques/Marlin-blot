@@ -1554,7 +1554,7 @@ void Stepper::isr() {
           // Define 2.5 msec task for auxilliary functions.
           if (!ftMotion_nextAuxISR) {
             TERN_(BABYSTEPPING, if (babystep.has_steps()) babystepping_isr());
-            ftMotion_nextAuxISR = 0.0025f * (STEPPER_TIMER_RATE);
+            ftMotion_nextAuxISR = (STEPPER_TIMER_RATE) / 400;
           }
         }
         interval = _MIN(nextMainISR, ftMotion_nextAuxISR);
