@@ -146,17 +146,17 @@
 //
 // M3/M4/M5 - Spindle/Laser Control
 //
-#if HAS_CUTTER && !PIN_EXISTS(SPINDLE_LASER_ENA)
-  #if !defined(NUM_SERVOS) || NUM_SERVOS == 0     // Prefer the servo connector
-    #define SPINDLE_LASER_ENA_PIN              4  // Pullup or pulldown!
-    #define SPINDLE_LASER_PWM_PIN              6  // Hardware PWM
-    #define SPINDLE_DIR_PIN                    5
-  #elif HAS_FREE_AUX2_PINS                        // try to use AUX 2
-    #define SPINDLE_LASER_ENA_PIN             22  // Pullup or pulldown!
-    #define SPINDLE_LASER_PWM_PIN             23  // Hardware PWM
-    #define SPINDLE_DIR_PIN                   24
-  #endif
-#endif
+// #if HAS_CUTTER && !PIN_EXISTS(SPINDLE_LASER_ENA)
+//   #if !defined(NUM_SERVOS) || NUM_SERVOS == 0     // Prefer the servo connector
+//     #define SPINDLE_LASER_ENA_PIN              4  // Pullup or pulldown!
+//     #define SPINDLE_LASER_PWM_PIN              6  // Hardware PWM
+//     #define SPINDLE_DIR_PIN                    5
+//   #elif HAS_FREE_AUX2_PINS                        // try to use AUX 2
+//     #define SPINDLE_LASER_ENA_PIN             22  // Pullup or pulldown!
+//     #define SPINDLE_LASER_PWM_PIN             23  // Hardware PWM
+//     #define SPINDLE_DIR_PIN                   24
+//   #endif
+// #endif
 
 //
 // Průša i3 MK2 Multiplexer Support
