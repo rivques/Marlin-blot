@@ -103,7 +103,11 @@ template <class L, class R> struct IF<true, L, R> { typedef L type; };
 #define SECONDARY_AXIS_GANG(V...) GANG_N(SECONDARY_AXES, V)
 #define SECONDARY_AXIS_CODE(V...) CODE_N(SECONDARY_AXES, V)
 #define SECONDARY_AXIS_LIST(V...) LIST_N(SECONDARY_AXES, V)
+#define SECONDARY_AXIS_NAMES      SECONDARY_AXIS_LIST(I, J, K, U, V, W)
+#define SECONDARY_AXIS_NAMES_LC   SECONDARY_AXIS_LIST(i, j, k, u, v, w)
 #define SECONDARY_AXIS_ARGS(T)    SECONDARY_AXIS_LIST(T i, T j, T k, T u, T v, T w)
+#define SECONDARY_AXIS_MAP(F)     MAP(F, SECONDARY_AXIS_NAMES)
+#define SECONDARY_AXIS_MAP_LC(F)  MAP(F, SECONDARY_AXIS_NAMES_LC)
 
 // Just the XY or XYZ elements
 #if HAS_Z_AXIS

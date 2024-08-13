@@ -112,8 +112,8 @@ class FTMotion {
 
     static bool sts_stepperBusy;                          // The stepper buffer has items and is in use.
 
-    static millis_t axis_pos_move_end_ti[NUM_AXIS_HEADS],
-                    axis_neg_move_end_ti[NUM_AXIS_HEADS];
+    static millis_t axis_move_end_ti[NUM_AXES];
+    static AxisBits axis_move_dir;
 
     // Public methods
     static void init();
@@ -128,8 +128,8 @@ class FTMotion {
 
     static void setup_traj_gen(uint32_t intervals);
 
-    static bool axis_moving_pos(const AxisEnum axis) { return !ELAPSED(millis(), axis_pos_move_end_ti[axis]); }
-    static bool axis_moving_neg(const AxisEnum axis) { return !ELAPSED(millis(), axis_neg_move_end_ti[axis]); }
+    static bool axis_moving_pos(const AxisEnum axis) { return  axis_move_dir[axis] && !ELAPSED(millis(), axis_move_end_ti[axis]); }
+    static bool axis_moving_neg(const AxisEnum axis) { return !axis_move_dir[axis] && !ELAPSED(millis(), axis_move_end_ti[axis]); }
 
   private:
 
