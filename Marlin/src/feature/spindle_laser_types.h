@@ -42,7 +42,7 @@
     #define SPEED_POWER_MAX     30000
   #endif
   #ifndef SPEED_POWER_STARTUP
-    #define SPEED_POWER_STARTUP 25000
+    #define SPEED_POWER_STARTUP 15000
   #endif
 #else
   #define _MSG_CUTTER(M) MSG_LASER_##M

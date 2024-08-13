@@ -925,6 +925,17 @@
   #include "hc32f4/pins_CREALITY_ENDER2P_V24S4.h"   // HC32F460                             env:HC32F460C_e2p24s4
 
 //
+// Raspberry Pi RP2040
+//
+
+#elif MB(RP2040)
+  #include "rp2040/pins_RP2040.h"                   // RP2040                               env:RP2040
+#elif MB(BTT_SKR_PICO)
+  #include "rp2040/pins_BTT_SKR_Pico.h"             // RP2040                               env:SKR_Pico env:SKR_Pico_UART
+#elif MB(HC_BLOT)
+  #include "rp2040/pins_HC_BLOT.h"                  // RP2040                               env:RP2040
+
+//
 // Custom board (with custom PIO env)
 //
 

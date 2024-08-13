@@ -172,6 +172,9 @@ public:
       case _CUTTER_POWER_RPM:       // Calculate OCR value
         upwr = cutter_power_t(constrain(pwr, SPEED_POWER_MIN, SPEED_POWER_MAX));
         break;
+      case _CUTTER_POWER_SERVO:     // Servo
+        upwr = cutter_power_t(constrain(pwr, 0, 180));
+        break;
       default: break;
     }
     return upwr;
@@ -197,7 +200,7 @@ public:
   static void set_enabled(bool enable) {
     switch (cutter_mode) {
       case CUTTER_MODE_STANDARD:
-        apply_power(enable ? TERN(SPINDLE_LASER_USE_PWM, (power ?: (unitPower ? upower_to_ocr(cpwr_to_upwr(SPEED_POWER_STARTUP)) : 0)), 255) : 0);
+        apply_power(enable ? TERN(SPINDLE_SERVO, power, TERN(SPINDLE_LASER_USE_PWM, (power ?: (unitPower ? upower_to_ocr(cpwr_to_upwr(SPEED_POWER_STARTUP)) : 0)), 255)) : 0);
         break;
       case CUTTER_MODE_CONTINUOUS:
       case CUTTER_MODE_DYNAMIC:
